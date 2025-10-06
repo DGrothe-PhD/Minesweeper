@@ -69,9 +69,6 @@ export const getAdjacentMinesCount = (
 
   for (let i = -1; i <= 1; i++) {
     for (let j = -1; j <= 1; j++) {
-      // skip self
-      if (i === 0 && j === 0) continue;
-
       const xPos = x + i;
       const yPos = y + j;
 
@@ -139,11 +136,11 @@ export const updateBoard = (
   currentBoard: BoardData,
   updatedCells: CellData[]
 ): BoardData => {
-  // shallow-clone rows to keep immutability
-  const updatedBoard: BoardData = currentBoard.map((row) => row.slice());
+  const updatedBoard = [...currentBoard];
 
   for (const cell of updatedCells) {
-    updatedBoard[cell.x][cell.y] = { ...cell };
+    const updatedCell = { ...cell };
+    updatedBoard[cell.x][cell.y] = updatedCell;
   }
   return updatedBoard;
 };
@@ -259,8 +256,7 @@ export const getBoard = (boardSize: BoardSize): BoardData => {
         isIncorrectlyFlagged: false,
         isRevealed: false,
         isFlagged: false,
-        // your types say "number" (not null)
-        adjacentMinesCount: 0,
+        adjacentMinesCount: null,
       });
     }
   }
