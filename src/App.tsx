@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 
 import { GAME_DIFFICULTY_LEVEL_SETTINGS } from '@config/gameDifficultyLevelSettings';
 
@@ -16,13 +16,18 @@ import {
   getFilteredFlagLocations,
   getGameLostBoard,
   getBoard,
-} from '@/minesweeperUtils.js';
+} from '@/minesweeperUtils';
 
-import GameStatus from '@enum/GameStatus.js';
-import { useCallback } from 'react';
+import GameStatus from '@enum/GameStatus'; // ✅ default import (file exports default)
 
 import './App.css';
-import type { BoardData, CellData, FlagLocations, LocationColRow, MineLocations } from '@/types';
+import type {
+  BoardData,
+  CellData,
+  FlagLocations,
+  LocationColRow,
+  MineLocations,
+} from '@/types';
 
 function App() {
   const [board, setBoard] = useState<BoardData>([]);
@@ -38,7 +43,35 @@ function App() {
   const [gameDifficultySettings, setGameDifficultySettings] = useState(
     GAME_DIFFICULTY_LEVEL_SETTINGS.EASY
   );
-  const boardContainerRef = useRef<HTMLInputElement>(null);
+
+  const boardContainerRef = useRef<HTMLDivElement>(null); // ✅ div, not input
+
+  const gameHasEnded = useCallback(() => {
+    switch (gameStatus) {
+      case GameStatus.GAME_LOST:
+      case GameStatus.GAME_WON:
+        return true;
+      default:
+        return false;
+    }
+  }, [gameStatus]);
+
+  const setupNewGame = useCallback(() => {
+    const boardSize = gameDifficultySettings.boardSize;
+    const rowCount = boardSize.rowCount;
+    const columnCount = boardSize.columnCount;
+    const mineCount = gameDifficultySettings.mineCount;
+
+    const newBoard = getBoard(boardSize);
+
+    setMineLocations([]);
+    setFlagLocations([]);
+    setShouldPlaceMines(true);
+    setGameStatus(GameStatus.GAME_NOT_STARTED);
+    setRemainingFlagsCount(gameDifficultySettings.mineCount);
+    setSafeCellsCount(rowCount * columnCount - mineCount);
+    setBoard(newBoard);
+  }, [gameDifficultySettings]);
 
   useEffect(() => {
     if (gameHasEnded()) {
@@ -47,11 +80,11 @@ function App() {
       ) as unknown as { showModal: () => void }; // TODO: refactor modal
       gameResultModal.showModal();
     }
-  }, [gameStatus]);
+  }, [gameHasEnded]);
 
   useEffect(() => {
     setupNewGame();
-  }, [gameDifficultySettings]);
+  }, [setupNewGame]);
 
   const onGameDifficultyLevelChanged = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -90,11 +123,12 @@ function App() {
   };
 
   const onRevealCell = (event: React.SyntheticEvent<HTMLElement>) => {
-    const target = event.target as unknown as {
+    // ✅ use currentTarget; target might be a child without dataset
+    const target = event.currentTarget as unknown as {
       dataset: { row: string; col: string };
     };
-    const rowIndex = parseInt(target.dataset.row);
-    const colIndex = parseInt(target.dataset.col);
+    const rowIndex = parseInt(target.dataset.row, 10);
+    const colIndex = parseInt(target.dataset.col, 10);
 
     const selectedCell = board[rowIndex][colIndex];
 
@@ -102,7 +136,8 @@ function App() {
       return;
     }
 
-    const currentBoard = [...board];
+    // safer clone (clone rows too)
+    const currentBoard: BoardData = board.map((r) => r.slice());
 
     if (shouldPlaceMines) {
       const newMineLocations = getMineLocations(
@@ -185,8 +220,8 @@ function App() {
     const target = event.currentTarget as unknown as {
       dataset: LocationColRow;
     };
-    const rowIndex = parseInt(target.dataset.row);
-    const colIndex = parseInt(target.dataset.col);
+    const rowIndex = parseInt(target.dataset.row, 10);
+    const colIndex = parseInt(target.dataset.col, 10);
 
     const selectedCell = board[rowIndex][colIndex];
 
@@ -194,7 +229,7 @@ function App() {
       return;
     }
 
-    const updatedBoard = [...board];
+    const updatedBoard = board.map((r) => r.slice());
     let flagCount = remainingFlagsCount;
 
     const isFlagged = selectedCell.isFlagged ? false : true;
@@ -205,7 +240,7 @@ function App() {
     };
     updatedBoard[rowIndex][colIndex] = updatedCell;
 
-    let updatedFlagLocations = [];
+    let updatedFlagLocations: FlagLocations = [];
 
     if (isFlagged) {
       flagCount = flagCount - 1;
@@ -222,34 +257,6 @@ function App() {
     setRemainingFlagsCount(flagCount);
     setFlagLocations(updatedFlagLocations);
     setBoard(updatedBoard);
-  };
-
-  const setupNewGame = () => {
-    const boardSize = gameDifficultySettings.boardSize;
-    const rowCount = boardSize.rowCount;
-    const columnCount = boardSize.columnCount;
-    const mineCount = gameDifficultySettings.mineCount;
-
-    const newBoard = getBoard(boardSize);
-
-    setMineLocations([]);
-    setFlagLocations([]);
-    setShouldPlaceMines(true);
-    setGameStatus(GameStatus.GAME_NOT_STARTED);
-    setRemainingFlagsCount(gameDifficultySettings.mineCount);
-    setSafeCellsCount(rowCount * columnCount - mineCount);
-    setBoard(newBoard);
-  };
-
-  const gameHasEnded = () => {
-    switch (gameStatus) {
-      case GameStatus.GAME_LOST:
-        return true;
-      case GameStatus.GAME_WON:
-        return true;
-      default:
-        return false;
-    }
   };
 
   const userWonGame = () => {
