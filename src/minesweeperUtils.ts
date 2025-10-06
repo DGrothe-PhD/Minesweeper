@@ -256,7 +256,7 @@ export const getBoard = (boardSize: BoardSize): BoardData => {
         isIncorrectlyFlagged: false,
         isRevealed: false,
         isFlagged: false,
-        adjacentMinesCount: null,
+        adjacentMinesCount: 0,
       });
     }
   }
