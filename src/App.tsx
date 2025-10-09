@@ -41,15 +41,6 @@ function App() {
   const boardContainerRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
-    if (gameHasEnded()) {
-      const gameResultModal = document.getElementById(
-        'gameResultModal'
-      ) as unknown as { showModal: () => void }; // TODO: refactor modal
-      gameResultModal.showModal();
-    }
-  }, [gameStatus]);
-
-  useEffect(() => {
     setupNewGame();
   }, [gameDifficultySettings]);
 
@@ -72,11 +63,7 @@ function App() {
     []
   );
 
-  const onCloseGameResultModal = () => {
-    const gameResultModal = document.getElementById(
-      'gameResultModal'
-    ) as unknown as { close: () => void }; // TODO: refactor modal
-    gameResultModal.close();
+  const handleGameRestart = () => {
 
     resetBoardContainerScroll();
     setupNewGame();
@@ -275,7 +262,7 @@ function App() {
         {gameHasEnded() && (
           <ResultModal
             gameWon={userWonGame()}
-            onClick={onCloseGameResultModal}
+            onClick={handleGameRestart}
           ></ResultModal>
         )}
         <div id='boardContainer' ref={boardContainerRef}>
