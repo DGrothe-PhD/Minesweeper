@@ -47,9 +47,4 @@
 - **Engombe Lokanga** [LinkedIn](https://www.linkedin.com/in/engombelokanga/)
   - Help with refactoring the compoment organisation and naming
 
-- **Amber Adamson** [LinkedIn](https://www.linkedin.com/in/amber-adamson-a33a3860/)
-  - Help with refactoring on App.tsx and utils files
-  - Suggestions for improving other parts of the project so it better follows React conventions
-
-
 
