@@ -110,8 +110,6 @@ function App() {
       setMineLocations(newMineLocations);
       setShouldPlaceMines(false);
       setBoard(boardWithMines);
-
-      console.log(currentBoard);
     }
 
     const revealedCells = revealCell(
