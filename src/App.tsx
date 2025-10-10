@@ -18,7 +18,7 @@ import {
   getBoard,
 } from '@/minesweeperUtils';
 
-import GameStatus from '@enum/GameStatus'; // ✅ default import (file exports default)
+import GameStatus from '@enum/GameStatus'; 
 
 import './App.css';
 import type {
