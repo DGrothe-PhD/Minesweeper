@@ -29,6 +29,7 @@ import type {
   MineLocations,
 } from '@/types';
 
+
 function App() {
   const [board, setBoard] = useState<BoardData>([]);
   const [gameStatus, setGameStatus] = useState<number>(
@@ -43,48 +44,11 @@ function App() {
   const [gameDifficultySettings, setGameDifficultySettings] = useState(
     GAME_DIFFICULTY_LEVEL_SETTINGS.EASY
   );
-
-  const boardContainerRef = useRef<HTMLDivElement>(null); // ✅ div, not input
-
-  const gameHasEnded = useCallback(() => {
-    switch (gameStatus) {
-      case GameStatus.GAME_LOST:
-      case GameStatus.GAME_WON:
-        return true;
-      default:
-        return false;
-    }
-  }, [gameStatus]);
-
-  const setupNewGame = useCallback(() => {
-    const boardSize = gameDifficultySettings.boardSize;
-    const rowCount = boardSize.rowCount;
-    const columnCount = boardSize.columnCount;
-    const mineCount = gameDifficultySettings.mineCount;
-
-    const newBoard = getBoard(boardSize);
-
-    setMineLocations([]);
-    setFlagLocations([]);
-    setShouldPlaceMines(true);
-    setGameStatus(GameStatus.GAME_NOT_STARTED);
-    setRemainingFlagsCount(gameDifficultySettings.mineCount);
-    setSafeCellsCount(rowCount * columnCount - mineCount);
-    setBoard(newBoard);
-  }, [gameDifficultySettings]);
-
-  useEffect(() => {
-    if (gameHasEnded()) {
-      const gameResultModal = document.getElementById(
-        'gameResultModal'
-      ) as unknown as { showModal: () => void }; // TODO: refactor modal
-      gameResultModal.showModal();
-    }
-  }, [gameHasEnded]);
+  const boardContainerRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
     setupNewGame();
-  }, [setupNewGame]);
+  }, [gameDifficultySettings]);
 
   const onGameDifficultyLevelChanged = useCallback(
     (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -105,12 +69,7 @@ function App() {
     []
   );
 
-  const onCloseGameResultModal = () => {
-    const gameResultModal = document.getElementById(
-      'gameResultModal'
-    ) as unknown as { close: () => void }; // TODO: refactor modal
-    gameResultModal.close();
-
+  const handleGameRestart = () => {
     resetBoardContainerScroll();
     setupNewGame();
   };
@@ -123,8 +82,7 @@ function App() {
   };
 
   const onRevealCell = (event: React.SyntheticEvent<HTMLElement>) => {
-    // ✅ use currentTarget; target might be a child without dataset
-    const target = event.currentTarget as unknown as {
+    const target = event.target as unknown as {
       dataset: { row: string; col: string };
     };
     const rowIndex = parseInt(target.dataset.row, 10);
@@ -136,8 +94,7 @@ function App() {
       return;
     }
 
-    // safer clone (clone rows too)
-    const currentBoard: BoardData = board.map((r) => r.slice());
+    const currentBoard = [...board];
 
     if (shouldPlaceMines) {
       const newMineLocations = getMineLocations(
@@ -153,6 +110,8 @@ function App() {
       setMineLocations(newMineLocations);
       setShouldPlaceMines(false);
       setBoard(boardWithMines);
+
+      console.log(currentBoard);
     }
 
     const revealedCells = revealCell(
@@ -220,8 +179,8 @@ function App() {
     const target = event.currentTarget as unknown as {
       dataset: LocationColRow;
     };
-    const rowIndex = parseInt(target.dataset.row, 10);
-    const colIndex = parseInt(target.dataset.col, 10);
+    const rowIndex = parseInt(target.dataset.row);
+    const colIndex = parseInt(target.dataset.col);
 
     const selectedCell = board[rowIndex][colIndex];
 
@@ -229,7 +188,7 @@ function App() {
       return;
     }
 
-    const updatedBoard = board.map((r) => r.slice());
+    const updatedBoard = [...board];
     let flagCount = remainingFlagsCount;
 
     const isFlagged = selectedCell.isFlagged ? false : true;
@@ -240,7 +199,7 @@ function App() {
     };
     updatedBoard[rowIndex][colIndex] = updatedCell;
 
-    let updatedFlagLocations: FlagLocations = [];
+    let updatedFlagLocations = [];
 
     if (isFlagged) {
       flagCount = flagCount - 1;
@@ -257,6 +216,34 @@ function App() {
     setRemainingFlagsCount(flagCount);
     setFlagLocations(updatedFlagLocations);
     setBoard(updatedBoard);
+  };
+
+  const setupNewGame = () => {
+    const boardSize = gameDifficultySettings.boardSize;
+    const rowCount = boardSize.rowCount;
+    const columnCount = boardSize.columnCount;
+    const mineCount = gameDifficultySettings.mineCount;
+
+    const newBoard = getBoard(boardSize);
+
+    setMineLocations([]);
+    setFlagLocations([]);
+    setShouldPlaceMines(true);
+    setGameStatus(GameStatus.GAME_NOT_STARTED);
+    setRemainingFlagsCount(gameDifficultySettings.mineCount);
+    setSafeCellsCount(rowCount * columnCount - mineCount);
+    setBoard(newBoard);
+  };
+
+  const gameHasEnded = () => {
+    switch (gameStatus) {
+      case GameStatus.GAME_LOST:
+        return true;
+      case GameStatus.GAME_WON:
+        return true;
+      default:
+        return false;
+    }
   };
 
   const userWonGame = () => {
@@ -282,7 +269,7 @@ function App() {
         {gameHasEnded() && (
           <ResultModal
             gameWon={userWonGame()}
-            onClick={onCloseGameResultModal}
+            onClick={handleGameRestart}
           ></ResultModal>
         )}
         <div id='boardContainer' ref={boardContainerRef}>
