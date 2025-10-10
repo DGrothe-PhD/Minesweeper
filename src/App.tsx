@@ -70,6 +70,7 @@ function App() {
   );
 
   const handleGameRestart = () => {
+    
     resetBoardContainerScroll();
     setupNewGame();
   };
