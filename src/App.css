@@ -34,3 +34,11 @@ header {
   flex-direction: column;
   flex-grow: 1;
 }
+
+#boardContainer {
+  display: flex;
+  overflow-y: hidden;
+  justify-content: flex-start;
+  margin: 5px;
+  padding: 2px 0;
+}
