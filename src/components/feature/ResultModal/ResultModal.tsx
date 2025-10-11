@@ -2,20 +2,21 @@ import { useEffect, useState } from 'react';
 
 import classNames from 'classnames';
 import type { ResultModalProps } from '@/components/feature/ResultModal/ResultModal.interface';
+import styles from '@components/feature/ResultModal/ResultModal.module.css';
 
 function ResultModal({ gameWon, onClick }: ResultModalProps) {
-  const [modalStateClass, setModalStateClass] = useState('modalEntrance');
+  const [modalStateClass, setModalStateClass] = useState(styles.modalEntrance);
   const message = gameWon ? 'You Won!' : 'Game Over!';
-  const gameResultClass = gameWon ? 'gameWonModal' : 'gameLostModal';
+  const gameResultClass = gameWon ? styles.gameWonModal : styles.gameLostModal;
 
   // Combine animation + result style into one class
   const modalClass = classNames(modalStateClass, gameResultClass);
 
   // Start entrance-to-visible transition after mount
-  useEffect(() => setModalStateClass('modalVisible'), []);
+  useEffect(() => setModalStateClass(styles.modalVisible), []);
 
   function closeModal() {
-    setModalStateClass('modalExit');
+    setModalStateClass(styles.modalExit);
     setTimeout(onClick, 300); // Wait for the transition to finish before calling onClick (Make sure 500ms matches your CSS transition duration)
   }
   //useEffect and useState are used to manage the the CSS class state for the modal dialog (initially modalEntrance)

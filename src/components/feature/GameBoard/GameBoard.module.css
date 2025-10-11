@@ -1,0 +1,16 @@
+#boardContainer {
+  display: flex;
+  overflow-y: hidden;
+  justify-content: flex-start;
+  margin: 5px;
+  padding: 2px 0;
+}
+
+#board {
+  display: grid;
+  grid-template-columns: repeat(var(--columns), 39px);
+  grid-template-rows: repeat(var(--rows), 39px);
+  gap: 0;
+  width: fit-content;
+  margin: auto;
+}
