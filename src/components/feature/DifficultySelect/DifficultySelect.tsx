@@ -1,7 +1,7 @@
 import { GAME_DIFFICULTY_LEVEL_SETTINGS } from '@config/gameDifficultyLevelSettings';
 import { memo } from 'react';
 import type { GameDifficultyLevelKeys } from '@enum/GameDifficultyLevel.interfaces';
-import type { DifficultySelectProps } from '@/components/feature/DifficultySelect/DifficultySelect.interfaces'; 
+import type { DifficultySelectProps } from '@/components/feature/DifficultySelect/DifficultySelect.interfaces';
 import styles from '@components/feature/DifficultySelect/DifficultySelect.module.css';
 
 const gameDifficultyLevelKeys = Object.keys(

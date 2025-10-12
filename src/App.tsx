@@ -18,7 +18,7 @@ import {
   getBoard,
 } from '@/minesweeperUtils';
 
-import GameStatus from '@enum/GameStatus'; 
+import GameStatus from '@enum/GameStatus';
 
 import './App.css';
 import type {
@@ -28,7 +28,6 @@ import type {
   LocationColRow,
   MineLocations,
 } from '@/types';
-
 
 function App() {
   const [board, setBoard] = useState<BoardData>([]);

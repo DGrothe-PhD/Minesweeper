@@ -7,8 +7,8 @@ export default defineConfig({
   base: '/Minesweeper/',
   css: {
     modules: {
-      generateScopedName: (name: string) => name // Preserves original class names
-    }
+      generateScopedName: (name: string) => name, // Preserves original class names
+    },
   },
   resolve: {
     alias: {
