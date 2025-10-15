@@ -19,7 +19,6 @@ function GameBoard({
     <div
       style={style}
       className={styles.board}
-      id='board'
       data-testid='game-board'
       role='grid'
       aria-label={`Minesweeper grid ${boardSize.rowCount} by ${boardSize.columnCount}`}

@@ -1,4 +1,4 @@
-dialog button {
+.resultModalButton {
   border-radius: 5px;
   border: none;
   background: rgb(211, 211, 211);
@@ -7,13 +7,13 @@ dialog button {
   box-shadow: 0 0 2px grey;
   outline-color: lightgrey;
 }
-dialog button:hover {
+.resultModalButton:hover {
   background: rgb(190, 190, 190);
   box-shadow: 0 0 4px rgb(100, 100, 100);
   cursor: pointer;
 }
 
-dialog {
+.resultModal {
   border-radius: 5px;
   transition: transform 0.3s ease-in-out;
   display: grid;
@@ -31,7 +31,7 @@ dialog {
   max-height: 92px;
 }
 
-dialog p {
+.resultModalMessage {
   font-size: 36px;
   font-weight: 700;
   text-align: center;

@@ -1,4 +1,4 @@
-#board {
+.board {
   display: grid;
   grid-template-columns: repeat(var(--columns), 39px);
   grid-template-rows: repeat(var(--rows), 39px);
