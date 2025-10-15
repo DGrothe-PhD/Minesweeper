@@ -20,27 +20,26 @@ We are currently not looking for any more contributions to the UI mock-ups, but 
 
 Please read the [Code of Conduct](https://github.com/v-gajjar/Minesweeper/blob/develop/CODE_OF_CONDUCT.md).
 
-## Creating an Issue – To Report Bugs or Make Suggestions for Features/Enhancements
+## Working with Issues
 
-Before creating an issue, we would appreciate it if you could first check the [Kanban board](https://github.com/users/v-gajjar/projects/2) to see whether there is already a ticket for the issue – this helps avoid duplicate issues and is in the best interests of the project.
+Before creating or selecting an issue, please check the [Kanban board](https://github.com/users/v-gajjar/projects/2) to see whether a ticket already exists.  
+This helps avoid duplicates and keeps the project organized.
 
-If you don't see an issue, feel free to create one using any of the provided issue templates. Please follow the relevant template rather than creating an issue in an arbitrary format.
+- **To report a bug or suggest a feature:**  
+  If no issue exists, create one using the relevant issue template. It will be automatically added to the “Under Consideration” column.
 
-Once a ticket is created, it will be automatically added to the "Under Consideration" column of the project's Kanban board.
+- **To pick up an existing task:**  
+  Look for tickets in the **TODO** column that aren’t already assigned.  
+  Priority tags (**`priority:high`**, **`priority:medium`**) indicate the most impactful work.
 
-## Choosing an Existing Issue
-
-If you're interested in contributing to an existing issue, please check the [Kanban board](https://github.com/users/v-gajjar/projects/2) for tickets in the **TODO** column that aren’t already assigned.
-
-We would appreciate it if you could choose a task labelled **`priority:high`** or **`priority:medium`**, as these are currently the most impactful for the project.
-
-If you're unsure whether a ticket is available or appropriate to work on, feel free to comment on the issue to ask!
+If you’re unsure whether something is available or appropriate to work on, just leave a comment on the issue to ask!
 
 ## Submitting a PR
 
-Before submitting a PR, again, we would appreciate it if you could check whether there is already a related issue. If there isn’t, feel free to go ahead and create one, then link the issue to the PR.
+Before submitting, link your PR to its related issue.  
+If one doesn’t exist yet, please create it first — this helps with tracking and discussion.
 
-**Note:** We're all human. We all have those moments where you end up creating a PR without first checking for an issue or creating one if necessary – if you can create an issue and link it to the PR, that will be highly appreciated.
+**Note:** We all sometimes forget! Creating and linking an issue afterward is totally fine — thank you for doing it.
 
 ### Branching Strategy (Git Flow)
 
