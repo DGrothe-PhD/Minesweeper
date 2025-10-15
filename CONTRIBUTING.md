@@ -26,11 +26,11 @@ Before creating or selecting an issue, please check the [Kanban board](https://g
 This helps avoid duplicates and keeps the project organized.
 
 - **To report a bug or suggest a feature:**  
-  If no issue exists, create one using the relevant issue template. It will be automatically added to the “Under Consideration” column.
+  If no issue exists, create one using the relevant issue template. It will be automatically added to the **“Under Consideration”** column.
 
 - **To pick up an existing task:**  
   Look for tickets in the **TODO** column that aren’t already assigned.  
-  Priority tags (**`priority:high`**, **`priority:medium`**) indicate the most impactful work.
+  Priority tags ([`priority:high`](https://github.com/v-gajjar/Minesweeper/issues?q=is%3Aissue%20state%3Aopen%20label%3A%22priority%3A%20high%22), [`priority:medium`](https://github.com/v-gajjar/Minesweeper/issues?q=is%3Aissue%20state%3Aopen%20label%3Apriority%3Amedium)) indicate the most impactful work.
 
 If you’re unsure whether something is available or appropriate to work on, just leave a comment on the issue to ask!
 
