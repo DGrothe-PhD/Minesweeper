@@ -253,7 +253,7 @@ function App() {
   return (
     <>
       <header className='header'>
-        <h1 className='game-title-header'>Minesweeper</h1>
+        <h1 className='header-game-title'>Minesweeper</h1>
       </header>
       <main className='wrapper'>
         <DifficultySelect
