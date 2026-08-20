@@ -15,6 +15,8 @@ i18next
     lng: initialLng,
     fallbackLng: 'en', // Fallback language
     debug: import.meta.env.MODE !== 'test',
+    // initialize synchronously during tests so translations are available immediately
+    initImmediate: import.meta.env.MODE === 'test' ? false : true,
     resources: {
       en: { common: enCommon },
       de: { common: deCommon },
