@@ -1,4 +1,4 @@
-name: build-job
+name: build-mindsweeper
 
 on:
   push:
@@ -20,23 +20,20 @@ jobs:
         id: date
         run: echo "today=$(date +'%m/%d/%Y')" >> "$GITHUB_OUTPUT"
 
-      # 1) Install pnpm so setup-node cache: pnpm can find it
-      - name: Setup pnpm
+      - name: Setup pnpm 10
         uses: pnpm/action-setup@v4
         with:
+          version: 10
           run_install: false
 
-      # 2) Setup Node.js and enable pnpm caching
       - name: Setup Node.js 20
         uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: pnpm
 
-      # 3) Install dependencies via pnpm
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 4) Build the app
       - name: Build App (Vite)
         run: pnpm run build
