@@ -1,4 +1,4 @@
-name: unit-test-mindsweeper
+name: unit-test-minesweeper
 
 on:
   push:
@@ -12,29 +12,24 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1) Check out the repository code
       - name: Checkout code
         uses: actions/checkout@v4
 
-      # 2) Install pnpm before setup-node configures the pnpm cache
+      # Reads pnpm@10.0.0 from package.json
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
         with:
-          version: 10
           run_install: false
 
-      # 3) Set up Node.js 20 and enable pnpm dependency caching
-      - name: Setup Node.js 20
+      - name: Setup Node.js 24
         uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 24
           cache: pnpm
           cache-dependency-path: pnpm-lock.yaml
 
-      # 4) Install dependencies exactly as defined in pnpm-lock.yaml
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
 
-      # 5) Run the Vitest unit tests
       - name: Run Unit Tests (Vitest)
         run: pnpm run test
